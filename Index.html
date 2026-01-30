@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>I Love You</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Comic Sans MS", "Segoe UI", system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    section {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    /* HOME */
+    #home {
+      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      z-index: 2;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 360px;
+      background: #fff;
+      padding: 45px 25px;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(255, 105, 135, 0.35);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 9vw, 3.2rem);
+      color: #ff4f81;
+      margin-bottom: 25px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff4f81, #ff85a2);
+      color: white;
+      cursor: pointer;
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    button:active { transform: scale(0.95); }
+
+    /* LOVE SCREEN */
+    #love {
+      background: radial-gradient(circle at top, #ffe6eb, #ffb3c6);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #love.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #home.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: scale(0.9);
+    }
+
+    .message {
+      width: 100%;
+      max-width: 380px;
+      background: rgba(255,255,255,0.95);
+      padding: 32px 26px;
+      border-radius: 30px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(255, 79, 129, 0.35);
+      z-index: 2;
+    }
+
+    .message p {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: #555;
+    }
+
+    /* FLOATING HEARTS + FLOWERS */
+    .float {
+      position: absolute;
+      bottom: -40px;
+      animation: floatUp linear infinite;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      from { transform: translateY(0); }
+      to { transform: translateY(-120vh) rotate(12deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🎵 MUSIC -->
+  <audio id="bgMusic" loop>
+    <source src="Music.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- HOME -->
+  <section id="home">
+    <div class="card">
+      <h1>I love you</h1>
+      <button onclick="showLove()">Tap my heart 💕</button>
+    </div>
+  </section>
+
+  <!-- LOVE -->
+  <section id="love">
+    <div class="message">
+      <p>
+        Since the first day I met you I knew you were someone I would love to have around.
+        I took a break and came back just to run into your shadows.
+        How beautiful the moon was when I heard your voice again,
+        when I saw your face,
+        when I understood how special you are to me.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const symbols = ["❤️", "💖", "🌸", "🌺", "💕", "💐"];
+
+    function showLove() {
+      document.getElementById("home").classList.add("hidden");
+      document.getElementById("love").classList.add("active");
+
+      const music = document.getElementById("bgMusic");
+      music.volume = 0.6;
+      music.play();
+
+      startFloating();
+    }
+
+    function startFloating() {
+      setInterval(() => {
+        const el = document.createElement("div");
+        el.className = "float";
+        el.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        el.style.left = Math.random() * 100 + "vw";
+        el.style.fontSize = 20 + Math.random() * 24 + "px";
+        el.style.animationDuration = 8 + Math.random() * 6 + "s";
+
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 15000);
+      }, 500);
+    }
+  </script>
+
+</body>
+</html>
